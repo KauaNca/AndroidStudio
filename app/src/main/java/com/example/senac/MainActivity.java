@@ -44,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Connection con = Conexao.conectar();
-                    PreparedStatement stmt = con.prepareStatement("SELECT descricao,preco FROM produto");
+                    PreparedStatement stmt = con.prepareStatement("SELECT id,usuario FROM login");
                     ResultSet rs = stmt.executeQuery();
                     while(rs.next()){
-                        dados.add("Produto: " + rs.getString("descricao") + " Preço: " + rs.getString("preco"));
+                        dados.add("ID: " + rs.getString("id") + " Usuário: " + rs.getString("usuario"));
                     }
                     adaptador = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, dados);
                     lista.setAdapter(adaptador);
