@@ -2,8 +2,10 @@ package com.example.senac;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -19,9 +21,25 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ListView lista;
-    Button mostrar;
+    String id;
+    Button mostrar,atualizar;
+    EditText textoLinha;
     ArrayList<String> dados;
     ArrayAdapter<String> adaptador;
+
+    public void atualizarTabela(View v){
+        try {
+            Connection con = Conexao.conectar();
+            PreparedStatement stmt = con.prepareStatement("UPDATE login SET usuario = ? WHERE id = ?");
+            stmt.setString(1,textoLinha.getText().toString());
+            stmt.setString(1,id);
+            stmt.executeUpdate();
+            lista.setVisibility(View.GONE);
+            textoLinha.setText("");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +51,10 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+    textoLinha = findViewById(R.id.editar);
         mostrar = findViewById(R.id.btLista);
         lista = findViewById(R.id.lista);
+        atualizar = findViewById(R.id.btAtualizar);
         lista.setVisibility(View.GONE);
         dados = new ArrayList<>();
 
@@ -57,5 +76,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String texto = (String) adaptador.getItem(position);
+                String[] partes = texto.split(" ");
+                textoLinha.setText(partes[3]);
+                
+            }
+        });
     }
+
 }
+

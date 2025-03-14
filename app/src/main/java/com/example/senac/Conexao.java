@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexao {
-    private static final String URL = "jdbc:mysql://10.160.215.41:3307/login_teste";
+    private static final String URL = "jdbc:mysql://10.160.215.39:3307/login_teste";
     private static final String USUARIO = "senac"; //super usuario do banco de dados
     private static final String SENHA = "123";
 
